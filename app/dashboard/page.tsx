@@ -627,6 +627,124 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+        {/* Webhook Integration Status */}
+        <div style={{ marginTop: "2rem" }}>
+          <h3
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "600",
+              color: theme.text,
+              marginBottom: "1rem",
+              margin: "0 0 1rem 0",
+            }}
+          >
+            WhatsApp Integration
+          </h3>
+          <div
+            style={{
+              backgroundColor: theme.cardBg,
+              border: `1px solid ${theme.border}`,
+              borderRadius: "0.75rem",
+              padding: "1.5rem",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "1rem",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                }}
+              >
+                <div
+                  style={{
+                    width: "2.5rem",
+                    height: "2.5rem",
+                    backgroundColor: theme.accent,
+                    borderRadius: "0.5rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.25rem",
+                  }}
+                >
+                  💬
+                </div>
+                <div>
+                  <h4
+                    style={{
+                      fontSize: "1.125rem",
+                      fontWeight: "600",
+                      color: theme.text,
+                      margin: 0,
+                    }}
+                  >
+                    Webhook Status
+                  </h4>
+                  <p
+                    style={{
+                      fontSize: "0.875rem",
+                      color: theme.muted,
+                      margin: 0,
+                    }}
+                  >
+                    Real-time message processing with OpenAI Whisper & TTS
+                  </p>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  fontSize: "0.875rem",
+                  color: theme.accent,
+                  fontWeight: "500",
+                }}
+              >
+                <div
+                  style={{
+                    width: "0.5rem",
+                    height: "0.5rem",
+                    backgroundColor: theme.accent,
+                    borderRadius: "50%",
+                  }}
+                />
+                Active
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+                gap: "1rem",
+                fontSize: "0.875rem",
+              }}
+            >
+              <div>
+                <div style={{ color: theme.muted, marginBottom: "0.25rem" }}>Messages Today</div>
+                <div style={{ color: theme.text, fontWeight: "600" }}>12</div>
+              </div>
+              <div>
+                <div style={{ color: theme.muted, marginBottom: "0.25rem" }}>Response Time</div>
+                <div style={{ color: theme.text, fontWeight: "600" }}>{"<2s"}</div>
+              </div>
+              <div>
+                <div style={{ color: theme.muted, marginBottom: "0.25rem" }}>Success Rate</div>
+                <div style={{ color: theme.text, fontWeight: "600" }}>99.8%</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
