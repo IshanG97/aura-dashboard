@@ -1,4 +1,4 @@
-# aura-js
+# aura-dashboard
 WhatsApp Wellbeing Coach
 
 Conceptualized @ MachineTalents X UM Hackathon @ Google https://lu.ma/ibaiz50k?tk=T4VFxm
