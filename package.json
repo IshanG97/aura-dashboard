@@ -1,10 +1,10 @@
 {
-  "name": "aura-app",
+  "name": "aura",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "lint": "next lint",
     "start": "next start"
   },
@@ -46,7 +46,7 @@
     "fs": "latest",
     "input-otp": "latest",
     "lucide-react": "^0.454.0",
-    "next": "15.2.4",
+    "next": "^15.5.3",
     "next-themes": "latest",
     "path": "latest",
     "react": "^19",
@@ -58,7 +58,6 @@
     "sonner": "latest",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "tw-animate-css": "latest",
     "vaul": "latest",
     "zod": "^3.24.1"
   },

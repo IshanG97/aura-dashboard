@@ -286,7 +286,7 @@ export default function DashboardPage() {
               margin: 0,
             }}
           >
-            Here's your wellbeing progress for today
+            Here&apos;s your wellbeing progress for today
           </p>
         </div>
 

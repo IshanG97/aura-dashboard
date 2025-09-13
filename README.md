@@ -1,30 +1,22 @@
-# aura
+# aura-js
+WhatsApp Wellbeing Coach
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+Conceptualized @ MachineTalents X UM Hackathon @ Google https://lu.ma/ibaiz50k?tk=T4VFxm
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/ishang97s-projects/v0-aura)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/s71IxxjiZpI)
+## Quick start
+1. `cp .env.example .env.local`
+2. `git config core.hooksPath .git/hooks`
+3. Add the below to `.git/hooks/pre-commit`
 
-## Overview
-
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
-
-## Deployment
-
-Your project is live at:
-
-**[https://vercel.com/ishang97s-projects/v0-aura](https://vercel.com/ishang97s-projects/v0-aura)**
-
-## Build your app
-
-Continue building your app on:
-
-**[https://v0.dev/chat/projects/s71IxxjiZpI](https://v0.dev/chat/projects/s71IxxjiZpI)**
-
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+```
+#!/bin/sh
+echo "🔍 Running ESLint before commit..."
+npm run lint
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  echo "❌ ESLint failed. Commit aborted."
+  exit 1
+fi
+echo "✅ ESLint passed. Proceeding with commit."
+exit 0
+```
