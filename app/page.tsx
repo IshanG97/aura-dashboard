@@ -1,114 +1,371 @@
 "use client"
 
 import type React from "react"
-import Image from "next/image"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle, Heart, Shield } from "lucide-react"
+import { useState, useEffect } from "react"
 
 export default function HomePage() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
+  const [isDarkMode, setIsDarkMode] = useState(true)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    // Set dark mode by default
+    if (typeof window !== "undefined") {
+      document.documentElement.style.colorScheme = "dark"
+    }
+  }, [])
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!phoneNumber) return
 
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setTimeout(() => {
+      try {
+        if (typeof window !== "undefined" && window.sessionStorage) {
+          window.sessionStorage.setItem("aura-phone", phoneNumber)
+        }
+      } catch (e) {
+        console.log("Storage not available")
+      }
 
-    // Store phone number in localStorage for the dashboard
-    localStorage.setItem("aura-phone", phoneNumber)
+      if (typeof window !== "undefined") {
+        window.location.href = "/dashboard"
+      }
+    }, 1500)
+  }
 
-    // Navigate to dashboard
-    router.push("/dashboard")
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+    if (typeof window !== "undefined") {
+      document.documentElement.style.colorScheme = !isDarkMode ? "dark" : "light"
+    }
+  }
+
+  const theme = {
+    bg: isDarkMode ? "#000000" : "#ffffff",
+    text: isDarkMode ? "#ffffff" : "#000000",
+    cardBg: isDarkMode ? "rgba(17, 24, 39, 0.95)" : "rgba(255, 255, 255, 0.95)",
+    border: isDarkMode ? "#1f2937" : "#e5e7eb",
+    muted: isDarkMode ? "#cbd5e1" : "#6b7280",
+    input: isDarkMode ? "#000000" : "#ffffff",
+    inputBorder: isDarkMode ? "#374151" : "#d1d5db",
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8">
-        {/* Logo and Branding */}
-        <div className="text-center space-y-4">
-          <div className="flex justify-center">
-            <Image src="/images/aura-logo.png" alt="Aura Logo" width={120} height={120} className="rounded-xl" />
-          </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-            Aura
-          </h1>
-          <p className="text-gray-200 text-lg">Your Personal Wellbeing Coach</p>
-        </div>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: theme.bg,
+        color: theme.text,
+        fontFamily:
+          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+        transition: "all 0.3s ease",
+      }}
+    >
+      {/* Dark Mode Toggle */}
+      <div
+        style={{
+          position: "absolute",
+          top: "1rem",
+          right: "1rem",
+          zIndex: 10,
+        }}
+      >
+        <button
+          onClick={toggleDarkMode}
+          style={{
+            backgroundColor: "transparent",
+            border: `1px solid ${theme.border}`,
+            color: theme.text,
+            padding: "0.5rem",
+            borderRadius: "0.5rem",
+            cursor: "pointer",
+            fontSize: "1.25rem",
+            transition: "all 0.3s ease",
+          }}
+          title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        >
+          {isDarkMode ? "☀️" : "🌙"}
+        </button>
+      </div>
 
-        {/* Main Card */}
-        <Card className="border border-gray-800 shadow-xl bg-gray-900/95 backdrop-blur-sm">
-          <CardHeader className="text-center space-y-2">
-            <CardTitle className="text-2xl font-semibold text-white">Subscribe to a better you</CardTitle>
-            <CardDescription className="text-gray-300">
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          padding: "1rem",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "28rem",
+            margin: "2rem auto",
+          }}
+        >
+          {/* Logo Section */}
+          <div
+            style={{
+              textAlign: "center",
+              marginBottom: "2rem",
+            }}
+          >
+            <div
+              style={{
+                width: "8rem",
+                height: "8rem",
+                borderRadius: "1.5rem",
+                margin: "0 auto 1rem",
+                overflow: "hidden",
+                backgroundColor: theme.border,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: isDarkMode ? "0 4px 6px rgba(0, 0, 0, 0.3)" : "0 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Gq4idemnRwRydm5Cw7Ciwwonpa0eji.png"
+                alt="Aura Logo"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+                onError={(e) => {
+                  // Fallback if image fails to load
+                  const target = e.target as HTMLImageElement
+                  target.style.display = "none"
+                  const parent = target.parentElement
+                  if (parent) {
+                    parent.innerHTML = `
+                      <div style="
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: linear-gradient(135deg, #2dd4bf, #22d3ee);
+                        color: white;
+                        font-size: 2rem;
+                        font-weight: bold;
+                      ">
+                        A
+                      </div>
+                    `
+                  }
+                }}
+              />
+            </div>
+            <h1
+              style={{
+                fontSize: "2.25rem",
+                fontWeight: "bold",
+                background: "linear-gradient(135deg, #2dd4bf, #22d3ee)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                marginBottom: "0.5rem",
+                margin: "0 0 0.5rem 0",
+              }}
+            >
+              Aura
+            </h1>
+            <p
+              style={{
+                fontSize: "1.125rem",
+                color: theme.muted,
+                marginBottom: "2rem",
+                margin: "0 0 2rem 0",
+              }}
+            >
+              Your Personal Wellbeing Coach
+            </p>
+          </div>
+
+          {/* Main Card */}
+          <div
+            style={{
+              border: `1px solid ${theme.border}`,
+              backgroundColor: theme.cardBg,
+              borderRadius: "0.75rem",
+              padding: "2rem",
+              boxShadow: isDarkMode ? "0 10px 25px rgba(0, 0, 0, 0.3)" : "0 10px 25px rgba(0, 0, 0, 0.1)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "600",
+                color: theme.text,
+                textAlign: "center",
+                marginBottom: "0.5rem",
+                margin: "0 0 0.5rem 0",
+              }}
+            >
+              Subscribe to a better you
+            </h2>
+            <p
+              style={{
+                fontSize: "1rem",
+                color: theme.muted,
+                textAlign: "center",
+                marginBottom: "1.5rem",
+                margin: "0 0 1.5rem 0",
+              }}
+            >
               Get personalized wellbeing guidance through WhatsApp
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+            </p>
+
             {/* Features */}
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 text-sm text-gray-300">
-                <MessageCircle className="w-5 h-5 text-teal-400" />
-                <span>24/7 WhatsApp wellness coach</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-gray-300">
-                <Heart className="w-5 h-5 text-teal-400" />
-                <span>Personalized health tracking</span>
-              </div>
-              <div className="flex items-center gap-3 text-sm text-gray-300">
-                <Shield className="w-5 h-5 text-teal-400" />
-                <span>Support for consistent health habits</span>
-              </div>
+            <div style={{ marginBottom: "1.5rem" }}>
+              {[
+                { icon: "💬", text: "24/7 WhatsApp wellness coach" },
+                { icon: "❤️", text: "Personalized health tracking" },
+                { icon: "🛡️", text: "Support for consistent health habits" },
+              ].map((feature, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    marginBottom: "0.75rem",
+                    fontSize: "0.875rem",
+                    color: theme.muted,
+                    padding: "0.5rem 0",
+                  }}
+                >
+                  <span style={{ fontSize: "1.25rem", minWidth: "1.5rem" }}>{feature.icon}</span>
+                  <span>{feature.text}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Phone Number Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="phone" className="text-sm font-medium text-gray-300">
+            {/* Form */}
+            <form onSubmit={handleSubmit} style={{ marginBottom: "1rem" }}>
+              <div style={{ marginBottom: "1rem" }}>
+                <label
+                  htmlFor="phone"
+                  style={{
+                    display: "block",
+                    fontSize: "0.875rem",
+                    fontWeight: "500",
+                    color: theme.text,
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   Phone Number
-                </Label>
-                <Input
+                </label>
+                <input
                   id="phone"
                   type="tel"
                   placeholder="+1 (555) 123-4567"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="h-12 text-lg bg-black border-gray-700 text-white placeholder:text-gray-500 focus:border-teal-400"
+                  style={{
+                    width: "100%",
+                    height: "3rem",
+                    fontSize: "1rem",
+                    backgroundColor: theme.input,
+                    border: `1px solid ${theme.inputBorder}`,
+                    color: theme.text,
+                    borderRadius: "0.5rem",
+                    padding: "0 0.75rem",
+                    marginBottom: "1rem",
+                    outline: "none",
+                    transition: "border-color 0.3s ease",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#2dd4bf"
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = theme.inputBorder
+                  }}
                   required
                 />
               </div>
 
-              <Button
+              <button
                 type="submit"
-                className="w-full h-12 text-lg bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-black font-semibold"
+                style={{
+                  width: "100%",
+                  height: "3rem",
+                  fontSize: "1.125rem",
+                  background: isLoading || !phoneNumber ? "#6b7280" : "linear-gradient(135deg, #14b8a6, #06b6d4)",
+                  color: "#ffffff",
+                  fontWeight: "600",
+                  borderRadius: "0.5rem",
+                  border: "none",
+                  cursor: isLoading || !phoneNumber ? "not-allowed" : "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  transform: isLoading || !phoneNumber ? "none" : "translateY(0)",
+                }}
                 disabled={isLoading || !phoneNumber}
+                onMouseEnter={(e) => {
+                  if (!isLoading && phoneNumber) {
+                    e.currentTarget.style.transform = "translateY(-1px)"
+                    e.currentTarget.style.boxShadow = "0 4px 12px rgba(20, 184, 166, 0.4)"
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)"
+                  e.currentTarget.style.boxShadow = "none"
+                }}
               >
                 {isLoading ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                  <>
+                    <div
+                      style={{
+                        width: "1rem",
+                        height: "1rem",
+                        border: "2px solid #ffffff",
+                        borderTopColor: "transparent",
+                        borderRadius: "50%",
+                        marginRight: "0.5rem",
+                        animation: "spin 1s linear infinite",
+                      }}
+                    />
                     Connecting...
-                  </div>
+                  </>
                 ) : (
                   "Start Your Journey"
                 )}
-              </Button>
+              </button>
             </form>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p
+              style={{
+                fontSize: "0.75rem",
+                color: theme.muted,
+                textAlign: "center",
+                marginTop: "1rem",
+                margin: "1rem 0 0 0",
+              }}
+            >
               By subscribing, you agree to receive WhatsApp messages from Aura
             </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
+
+      {/* CSS Animation */}
+      <style jsx>{`
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   )
 }
