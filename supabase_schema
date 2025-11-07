@@ -1,0 +1,36 @@
+create table users (
+  id uuid primary key default gen_random_uuid(),
+  phone text not null unique,
+  name text,
+  personality text,
+  created_at timestamp default now(),
+  last_seen timestamp
+);
+create table messages (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  conversation_id uuid references conversations(id) on delete set null,
+  timestamp timestamp not null default now(),
+  message text not null,
+  role text check (role in ('user', 'assistant')) not null,
+  message_type text, -- 'text', 'audio', etc.
+  audio_id text,
+  message_id text
+);
+create table conversations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  topic text not null,
+  status text default 'open' check (status in ('open', 'closed', 'expired')),
+  started_at timestamp default now(),
+  ended_at timestamp
+);
+create table tasks (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade,
+  type text check (type in ('Reminder', 'Goal')) not null,
+  content text not null,
+  active boolean default true,
+  freq float, -- frequency in days (e.g., 0.5 = every 12 hours)
+  created_at timestamp default now()
+);
