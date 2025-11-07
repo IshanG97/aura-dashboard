@@ -4,9 +4,11 @@ WhatsApp Wellbeing Coach
 Conceptualized @ MachineTalents X UM Hackathon @ Google https://lu.ma/ibaiz50k?tk=T4VFxm
 
 ## Quick start
-1. `cp .env.example .env.local`
-2. `git config core.hooksPath .git/hooks`
-3. Add the below to `.git/hooks/pre-commit`
+1. `npm install`
+2. `cp .env.example .env.local`
+3. `npm run dev`
+4. `git config core.hooksPath .git/hooks`
+5. Add the below to `.git/hooks/pre-commit`
 
 ```
 #!/bin/sh
